@@ -262,10 +262,9 @@ class MeterGroup(Electric):
             for meter in self.meters:
                 if meter.matches_appliances(key):
                     meters.append(meter)
-            if len(meters)>1:
+            if len(meters)>=1:
               print(f'WARNING: search terms match {len(meters)} appliances. Instance {instance} was selected')
-            return meters[instance]
-            
+              return meters[instance]
             else:
                 raise KeyError(key)
         elif isinstance(key, int) and not isinstance(key, bool):
