@@ -169,7 +169,7 @@ class MeterGroup(Electric):
     def nested_metergroups(self):
         return [m for m in self.meters if isinstance(m, MeterGroup)]
 
-    def __getitem__(self, key):
+    def __getitem__(self, key, instance=0):
         """Get a single meter using appliance type and instance unless
         ElecMeterID is supplied.
 
@@ -262,11 +262,10 @@ class MeterGroup(Electric):
             for meter in self.meters:
                 if meter.matches_appliances(key):
                     meters.append(meter)
-            if len(meters) == 1:
-                return meters[0]
-            elif len(meters) > 1:
-                raise Exception('search terms match {} appliances'
-                                .format(len(meters)))
+            if len(meters)>1:
+              print(f'WARNING: search terms match {len(meters)} appliances. Instance {instance} was selected')
+            return meters[instance]
+            
             else:
                 raise KeyError(key)
         elif isinstance(key, int) and not isinstance(key, bool):
